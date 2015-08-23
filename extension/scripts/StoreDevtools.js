@@ -69,5 +69,17 @@ StoreDevtools.prototype = {
 		chrome.runtime.sendMessage(request, function (response) {
 			callback(response);
 		});
+	},
+
+	findSitemap: function (sitemapId, callback) {
+
+		var request = {
+			findSitemap: true,
+			sitemapId: sitemapId
+		};
+
+		chrome.runtime.sendMessage(request, function (response) {
+			callback(response);
+		});
 	}
 };

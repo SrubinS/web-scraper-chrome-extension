@@ -142,7 +142,10 @@ ContentSelector.prototype = {
 			if(this.selectedElements.indexOf(element) === -1) {
 				this.selectedElements.push(element);
 			}
-			this.highlightSelectedElements();
+			if(!$("#-selector-toolbar [name=diferentElementSelection]").prop("checked")) this.selectionFinished();
+			else{
+				this.highlightSelectedElements();
+			}
 
 			// Cancel all other events
 			return false;
@@ -389,6 +392,8 @@ ContentSelector.prototype = {
 	selectionFinished: function () {
 
 		var resultCssSelector = this.getCurrentCSSSelector();
+
+ 		if($("#-selector-toolbar [name=diferentElementSelection]").prop("checked")) resultCssSelector=prompt('selector',resultCssSelector);
 
 		this.deferredCSSSelectorResponse.resolve({
 			CSSSelector: resultCssSelector

@@ -127,5 +127,17 @@ Store.prototype = {
             }
             callback(sitemapFound);
         });
+    },
+    findSitemap: function (sitemapId, callback) {
+        this.getAllSitemaps(function (sitemaps) {
+            var sitemapFound = false;
+            for (var i in sitemaps) {
+                if (sitemaps[i]._id === sitemapId) {
+		    callback(sitemaps[i]);
+		    return;
+                }
+            }
+            callback(sitemapFound);
+        });
     }
 };
