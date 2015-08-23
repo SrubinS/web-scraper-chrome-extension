@@ -1,3 +1,7 @@
+# This web scrapper
+
+The default window seems silly (by only asking to open dev-tools). In this version you are able to "Grap permlink" (add url to sitemaps), specify a default sitemap (selectors) and click on the selector in the popup and actually select the data.
+
 # Web Scraper
 Web Scraper is a chrome browser extension built for data extraction from web 
 pages. Using this extension you can create a plan (sitemap) how a web site 
