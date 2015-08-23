@@ -6,7 +6,7 @@ The default popup window seems empty (by only asking to open dev-tools). In this
 * click on the selector in the popup window and actually select the data (return to the popup to see the updated data)
 
 also
-* grab Link List (that is list of urls)
+* grab Link List (that is list of urls) which will be scrapped in a scrap from dev-tools
 * specify a regular expression for the urls to be selected
 * open a url and select attributes as in "permlink" case but now they apply to the whole link list
 
