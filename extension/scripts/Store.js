@@ -139,5 +139,26 @@ Store.prototype = {
             }
             callback(sitemapFound);
         });
+    },
+    findSimilar: function (sitemapId, callback) {
+        this.getAllSitemaps(function (sitemaps) {
+            var sitemapFound = false;
+ 	    var count=0;	
+            for (var i in sitemaps) {
+		var common=sharedStart([sitemaps[i]._id,sitemapId]);
+		if(count<common.length) {
+		    count=common.length;
+		    sitemapFound=sitemaps[i];
+                }
+            }
+	    callback(sitemapFound);
+        });
     }
 };
+
+function sharedStart(array){
+    var A= array.concat().sort(), 
+    a1= A[0], a2= A[A.length-1], L= a1.length, i= 0;
+    while(i<L && a1.charAt(i)=== a2.charAt(i)) i++;
+    return a1.substring(0, i);
+}

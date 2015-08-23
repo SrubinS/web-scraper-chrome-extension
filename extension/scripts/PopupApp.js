@@ -213,12 +213,18 @@ function popup_main(tab){
                       });
               });
               $('#grab_site').click(function() {
-                     var sitemap = JSON.parse(config.defaultSitemap);
-		     sitemap['_id']=sitemap_id;
-		     sitemap['startURL']=tab.url;
-                     store.createSitemap(sitemap, function(s) {
-                      	 popup_view_update(store,true,sitemap_id);
-                      });
+		     var _id=sitemap_id;
+		     store.findSimilar(_id,function (s){ 
+			if(s) 
+		        	sitemap={selectors:s.selectors};
+			else
+				sitemap={selectors:JSON.parse(config.defaultSitemap).selectors}	
+    		        sitemap['_id']=_id;
+		        sitemap['startURL']=tab.url;
+                        store.createSitemap(sitemap, function(s) {
+                      	    popup_view_update(store,true,_id);
+                        });
+                     });	
               });
 	});
 }
