@@ -1,11 +1,9 @@
 $(function (){
 
-    url=window.location.href;
-    var sitemap_id=url.replace(/https?:/,'').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig,'_').replace(/^_+/,'').replace(/_+$/,'');
-    store=new StoreDevtools();
-    store.findSitemap(sitemap_id,function (sitemap){
+    var store=new StoreDevtools();
+    var foundsitemap=function (sitemap){
   	if(sitemap===false){
-		alert('Could not find site... maybe grab first');
+		alert('Could not find site (id:'+sitemap_id+')... maybe grab first');
 		return;
 	}
 	var selectorList=new SelectorList();
@@ -14,7 +12,6 @@ $(function (){
 		var selector=sitemap.selectors[i];
 		aselector=new Selector(selector);
 		selectorList.push(aselector);
-		console.log(selector.id);
 		if(selector.id==selector_id) break;
 		aselector=null;
 		
@@ -34,6 +31,18 @@ $(function (){
 			store.saveSitemap(sitemap);
 		}.bind(this));
 	}
+    };
+    store.findSitemap(sitemap_id,function(sitemap){
+	if(sitemap!==false){
+		foundsitemap(sitemap);
+	}else{
+    		store.findSitemap('t'+sitemap_id,function(sitemap){
+			if(sitemap!==false){
+				foundsitemap(sitemap);
+			}else{
+		    		store.findSitemap('k'+sitemap_id,foundsitemap);
+			}
+	        });
+        }
     });
-
 });

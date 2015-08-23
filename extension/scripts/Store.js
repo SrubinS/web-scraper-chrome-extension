@@ -77,16 +77,19 @@ Store.prototype = {
     deleteSitemap: function (sitemap, callback) {
 
         sitemap = JSON.parse(JSON.stringify(sitemap));
+	var _this=this;
+	this.findSitemap(sitemap._id,function(_sitemap){
+	if(_sitemap===false) return;
 
-        this.sitemapDb.remove(sitemap, function(err, response){
-            // @TODO handle err
+        _this.sitemapDb.remove(_sitemap, function(err, response){
 
 			// delete sitemap data db
-			var dbLocation = this.getSitemapDataDbLocation(sitemap._id);
+			var dbLocation = _this.getSitemapDataDbLocation(_sitemap._id);
 			PouchDB.destroy(dbLocation, function() {
 				callback();
 			}.bind(this));
 		}.bind(this));
+	});
     },
     getAllSitemaps: function (callback) {
 

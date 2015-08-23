@@ -27,12 +27,22 @@ var sendToActiveTab = function(request, callback) {
 	});
 };
 
+var currentChildURLs=null;
+
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
 
 		console.log("chrome.runtime.onMessage", request);
 
-		if (request.createSitemap) {
+		if (request.setCurrentChildURLs) {
+			currentChildURLs=request.urls;
+			sendResponse(request);
+			return true;
+		}else if (request.getCurrentChildURLs) {
+			request.urls=currentChildURLs;
+			sendResponse(request);
+			return true;
+		}else if (request.createSitemap) {
 			store.createSitemap(request.sitemap, sendResponse);
 			return true;
 		}

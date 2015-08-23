@@ -2,8 +2,13 @@
 
 The default popup window seems empty (by only asking to open dev-tools). In this version you are able:
 * to "Grap permlink" (add current url to sitemaps)
-* specify a default sitemap (selectors) and 
+* specify an initial sitemap (selectors) defining required fields and 
 * click on the selector in the popup window and actually select the data (return to the popup to see the updated data)
+
+also
+* grab Link List (that is list of urls)
+* specify a regular expression for the urls to be selected
+* open a url and select attributes as in "permlink" case but now they apply to the whole link list
 
 # Web Scraper
 Web Scraper is a chrome browser extension built for data extraction from web 
