@@ -188,12 +188,13 @@ function popup_view_update(store,sitemap_exists,sitemap_id,filter)
                                         return;
                                    }
 				   if (selector.type == 'SelectorLink') {
-                                        html='<input style="width:100%" id="'+selector.id+'-regexp" value="'+selector.regex+'"></input>';
+                                        html='<input style="width:100%" id="'+selector.id+'-regexp" value="'+selector.regex+'"></input><ul>';
 					urls={};
 					for(var i in response){ 
-						html+='<a href="'+response[i][selector.id+'-href']+'" target="'+sitemap.id+'">'+response[i][selector.id+'-href']+'</a></br>';
-						urls[response[i][selector.id+'-href']]=1;
+						html+='<li><a href="'+response[i][selector.id+'-href']+'" target="'+sitemap.id+'">'+response[i][selector.id+'-href']+'</a></li>';
+						urls[response[i][selector.id+'-href']]=sitemap_id;
 					}
+					html+='</ul>';
 					var request={setCurrentChildURLs:true,urls:urls};
 					chrome.runtime.sendMessage(request,function (res){});
                                         $('#sel_data_' + selector.id).html(html);
@@ -229,12 +230,13 @@ function popup_main(tab){
        config.loadConfiguration(function() {
               var store = new Store(config);
 	      var request={getCurrentChildURLs:true};
-	      chrome.runtime.sendMessage(request,function (res){
+	      chrome.runtime.sendMessage(request,function (res){      	   
+	      	   console.log(res);
 	           if(res.urls&&res.urls[tab.url]){
-              		var sitemap_id = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
-              		store.sitemapExists('t'+sitemap_id, function(exists) {
+		   	var sitemap_id=res.urls[tab.url];
+              		store.sitemapExists(sitemap_id, function(exists) {
 		      		if(exists){
-					popup_main2(config,store,url,sitemap_id,'l2k');
+					popup_main2(config,store,url,sitemap_id.replace(/^t/,''),'l2k');
 				}else{
               				var url = tab.url;
               				var sitemap_id2 = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
