@@ -231,23 +231,19 @@ function popup_main(tab){
               var store = new Store(config);
 	      var request={getCurrentChildURLs:true};
 	      chrome.runtime.sendMessage(request,function (res){      	   
-	      	   console.log(res);
-	           if(res.urls&&res.urls[tab.url]){
-		   	var sitemap_id=res.urls[tab.url];
-              		store.sitemapExists(sitemap_id, function(exists) {
-		      		if(exists){
-					popup_main2(config,store,url,sitemap_id.replace(/^t/,''),'l2k');
+              	   var url = tab.url;
+              	   var sitemap_id = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
+              	   store.sitemapExists('t'+sitemap_id, function(exists) {
+		   	if(exists){
+				popup_main2(config,store,url,sitemap_id,'_root');
+			}else{
+	           		if(res.urls&&res.urls[tab.url]){
+					popup_main2(config,store,url,res.urls[url].replace(/^t/,''),'l2k');
 				}else{
-              				var url = tab.url;
-              				var sitemap_id2 = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
-					popup_main2(config,store,url,sitemap_id2,'_root');
+					popup_main2(config,store,url,sitemap_id,'_root');
 				}
-			});
-	            }else{
-              		var url = tab.url;
-              		var sitemap_id = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
-			popup_main2(config,store,url,sitemap_id,'_root');
-	           }
+			};
+		   });
                });
 	});
 }
