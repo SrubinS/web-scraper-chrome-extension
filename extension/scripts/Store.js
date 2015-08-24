@@ -63,8 +63,9 @@ Store.prototype = {
         if(!sitemap._id) {
             console.log("cannot save sitemap without an id", sitemap);
         }
-
+	console.log(sitemap);
         this.sitemapDb.put(sitemapJson, function(sitemap, err, response) {
+            console.log(err);
             // @TODO handle err
             sitemap._rev = response.rev;
             callback(sitemap);
@@ -79,7 +80,7 @@ Store.prototype = {
         sitemap = JSON.parse(JSON.stringify(sitemap));
 	var _this=this;
 	this.findSitemap(sitemap._id,function(_sitemap){
-	if(_sitemap===false) return;
+	if(!_sitemap) return;
 
         _this.sitemapDb.remove(_sitemap, function(err, response){
 

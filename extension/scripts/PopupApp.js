@@ -272,11 +272,11 @@ function popup_main2(config,store,url,sitemap_id,filter){
         });
         $('#ungrab').click(function() {
                       store.deleteSitemap({
-                         '_id': 'L'+sitemap_id
+                         '_id': 't'+sitemap_id
                       }, function() {
                       });
                       store.deleteSitemap({
-                         '_id': 'K'+sitemap_id
+                         '_id': 'k'+sitemap_id
                       }, function() {
                       });
                       popup_view_update(store,false,sitemap_id,filter);
