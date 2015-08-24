@@ -230,21 +230,17 @@ function popup_main(tab){
               var store = new Store(config);
 	      var request={getCurrentChildURLs:true};
 	      chrome.runtime.sendMessage(request,function (res){
-	           if(tab.openerTabId && res.urls[tab.url]){
-	      		chrome.tabs.get(tab.openerTabId,function (opener){
-				console.log(opener);
-				var url=opener.url;	
-              			var sitemap_id = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
-              			store.sitemapExists('t'+sitemap_id, function(exists) {
-		      			if(exists){
-						popup_main2(config,store,url,sitemap_id,'l2k');
-					}else{
-              					var url = tab.url;
-              					var sitemap_id2 = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
-						popup_main2(config,store,url,sitemap_id2,'_root');
-					}
-				});
-		        });
+	           if(res.urls&&res.urls[tab.url]){
+              		var sitemap_id = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
+              		store.sitemapExists('t'+sitemap_id, function(exists) {
+		      		if(exists){
+					popup_main2(config,store,url,sitemap_id,'l2k');
+				}else{
+              				var url = tab.url;
+              				var sitemap_id2 = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
+					popup_main2(config,store,url,sitemap_id2,'_root');
+				}
+			});
 	            }else{
               		var url = tab.url;
               		var sitemap_id = url.replace(/https?:/, '').replace(/[^0123456789qwertyuiopljkjhgfdsazxcvbnm]+/ig, '_').replace(/^_+/, '').replace(/_+$/, '');
@@ -314,7 +310,7 @@ function popup_main2(config,store,url,sitemap_id,filter){
 				}
 				sitemap.selectors[i].parentSelectors[0]='l2k';
 			}
-			sitemap.selectors.splice(0,1,{"type":"SelectorLink","multiple":true,"id":"l2k","regex":".*","selector":"a","delay":"","parentSelectors":["_root"]});
+			sitemap.selectors.unshift({"type":"SelectorLink","multiple":true,"id":"l2k","regex":".*","selector":"a","delay":"","parentSelectors":["_root"]});
     		        sitemap['_id']='t'+_id;
 		        sitemap['startUrl']=url;
                         store.createSitemap(sitemap, function(s) {
