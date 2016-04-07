@@ -63,8 +63,9 @@ Store.prototype = {
         if(!sitemap._id) {
             console.log("cannot save sitemap without an id", sitemap);
         }
-
+	console.log(sitemap);
         this.sitemapDb.put(sitemapJson, function(sitemap, err, response) {
+            console.log(err);
             // @TODO handle err
             sitemap._rev = response.rev;
             callback(sitemap);
@@ -77,16 +78,19 @@ Store.prototype = {
     deleteSitemap: function (sitemap, callback) {
 
         sitemap = JSON.parse(JSON.stringify(sitemap));
+	var _this=this;
+	this.findSitemap(sitemap._id,function(_sitemap){
+	if(!_sitemap) return;
 
-        this.sitemapDb.remove(sitemap, function(err, response){
-            // @TODO handle err
+        _this.sitemapDb.remove(_sitemap, function(err, response){
 
 			// delete sitemap data db
-			var dbLocation = this.getSitemapDataDbLocation(sitemap._id);
+			var dbLocation = _this.getSitemapDataDbLocation(_sitemap._id);
 			PouchDB.destroy(dbLocation, function() {
 				callback();
 			}.bind(this));
 		}.bind(this));
+	});
     },
     getAllSitemaps: function (callback) {
 
@@ -127,5 +131,38 @@ Store.prototype = {
             }
             callback(sitemapFound);
         });
+    },
+    findSitemap: function (sitemapId, callback) {
+        this.getAllSitemaps(function (sitemaps) {
+            var sitemapFound = false;
+            for (var i in sitemaps) {
+                if (sitemaps[i]._id === sitemapId) {
+		    callback(sitemaps[i]);
+		    return;
+                }
+            }
+            callback(sitemapFound);
+        });
+    },
+    findSimilar: function (sitemapId, callback) {
+        this.getAllSitemaps(function (sitemaps) {
+            var sitemapFound = false;
+ 	    var count=0;	
+            for (var i in sitemaps) {
+		var common=sharedStart([sitemaps[i]._id,sitemapId]);
+		if(count<common.length) {
+		    count=common.length;
+		    sitemapFound=sitemaps[i];
+                }
+            }
+	    callback(sitemapFound);
+        });
     }
 };
+
+function sharedStart(array){
+    var A= array.concat().sort(), 
+    a1= A[0], a2= A[A.length-1], L= a1.length, i= 0;
+    while(i<L && a1.charAt(i)=== a2.charAt(i)) i++;
+    return a1.substring(0, i);
+}

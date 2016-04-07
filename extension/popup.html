@@ -7,24 +7,50 @@
 			font-size:12px;
 		}
 	</style>
+	<script src="./assets/jquery-2.0.3.js"></script>
+	<script src="./assets/jquery.whencallsequentially.js"></script>
+	<script src="./assets/base64.js"></script>
+	<script src="./assets/pouchdb-nightly.min.js"></script>
+	<script src="./assets/bootstrap-3.0.0/js/bootstrap.js"></script>
+	<script src="./assets/d3.v3.js" charset="UTF-8"></script>
+	<script src="./assets/sugar-1.4.1.js" charset="UTF-8"></script>
+	<script src="./assets/ICanHaz.js"></script>
+	<script src="./assets/jquery.bootstrapvalidator/bootstrapValidator.js"></script>
+	<script src="./scripts/Config.js"></script>
+	<script src="./scripts/ElementQuery.js"></script>
+	<script src="./scripts/Selector.js"></script>
+	<script src="./scripts/SelectorList.js"></script>
+	<script src="./scripts/Selector/SelectorElement.js"></script>
+	<script src="./scripts/Selector/SelectorLink.js"></script>
+	<script src="./scripts/Selector/SelectorPopupLink.js"></script>
+	<script src="./scripts/Selector/SelectorGroup.js"></script>
+	<script src="./scripts/Selector/SelectorText.js"></script>
+	<script src="./scripts/Selector/SelectorImage.js"></script>
+	<script src="./scripts/Selector/SelectorHTML.js"></script>
+	<script src="./scripts/Selector/SelectorElementAttribute.js"></script>
+	<script src="./scripts/Selector/SelectorTable.js"></script>
+	<script src="./scripts/Selector/SelectorElementScroll.js"></script>
+	<script src="./scripts/Selector/SelectorElementClick.js"></script>
+	<script src="./scripts/Sitemap.js"></script>
+	<script src="./scripts/SelectorGraph.js"></script>
+	<script src="./scripts/SelectorGraphv2.js"></script>
+	<script src="./scripts/Store.js"></script>
+
+	<script src="./scripts/DataExtractor.js"></script>
+	<script src="./scripts/BackgroundScript.js"></script>
+	<script src="./scripts/ContentScript.js"></script>
+	<script src="./assets/css-selector/lib/CssSelector.js"></script>
+	<script src="./scripts/PopupApp.js"></script>
 </head>
 <body>
-<p>
-	Open Developer tools where you will find Web Scraper tab:
-	<ul>
-		<li>
-			Windows, Linux: Ctrl+Shift+I or F12
-		</li>
-		<li>
-			Mac: Cmd+Opt+I
-		</li>
-		<li>
-			Any OS: open Tools / Developer tools
-		</li>
-	</ul>
-</p>
-<p>
-	Documentation is available on <a target="_blank" href="http://webscraper.io/">webscraper.io</a>
-</p>
+	<table>
+		<tr><td style="width:30px">ID:</td><td><input style="width:260px" id="_id"></input></td></tr>
+		<tr><td style="width:30px">URL:</td><td><input style="width:260px" id="_url"></input></td></tr>
+	</table>
+	<button id="grab_link" style="width:98%;margin:1%">Grab Permalink</button>
+	<button id="grab_list" style="width:98%;margin:1%">Grab Link List</button>
+	<button id="ungrab" style="width:98%;margin:1%">Un-Grab</button>
+	<div id="selectors"/>	
 </body>
 </html>
+

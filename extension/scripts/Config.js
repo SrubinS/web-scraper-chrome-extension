@@ -6,6 +6,7 @@ Config.prototype = {
 
 	sitemapDb: '<use loadConfiguration()>',
 	dataDb: '<use loadConfiguration()>',
+	defaultSitemap: '<use loadConfiguration()>',
 
 	defaults: {
 		storageType: "local",
@@ -13,7 +14,34 @@ Config.prototype = {
 		sitemapDb: "scraper-sitemaps",
 		// this is where scraped data is stored.
 		// empty for local storage
-		dataDb: ""
+		dataDb: "",
+		defaultSitemap:'{ \
+                                     "selectors": [{ \
+                                                     "id": "title", \
+                                                     "parentSelectors": ["_root"], \
+                                                     "type": "SelectorText", \
+                                                     "multiple": false, \
+                                                     "selector": "h1" \
+                                                    }, { \
+                                                      "id": "photo", \
+                                                      "parentSelectors": ["_root"], \
+                                                      "type": "SelectorImage", \
+                                                      "multiple": false, \
+                                                      "selector": "img" \
+                                                    }, { \
+                                                      "id": "date", \
+                                                      "parentSelectors": ["_root"], \
+                                                      "type": "SelectorText", \
+                                                      "multiple": false,  \
+                                                      "selector": "time" \
+                                                    }, { \
+                                                      "id": "descr", \
+                                                      "parentSelectors": ["_root"], \
+                                                      "type": "SelectorText", \
+                                                      "multiple": true, \
+                                                      "selector": "p" \
+                                                    }]     \
+}'
 	},
 
 	/**
@@ -21,7 +49,7 @@ Config.prototype = {
 	 */
 	loadConfiguration: function (callback) {
 
-		chrome.storage.sync.get(['sitemapDb', 'dataDb', 'storageType'], function (items) {
+		chrome.storage.sync.get(['sitemapDb', 'dataDb', 'storageType', 'defaultSitemap'], function (items) {
 
 			this.storageType = items.storageType || this.defaults.storageType;
 			if (this.storageType === 'local') {
@@ -32,6 +60,7 @@ Config.prototype = {
 				this.sitemapDb = items.sitemapDb || this.defaults.sitemapDb;
 				this.dataDb = items.dataDb || this.defaults.dataDb;
 			}
+			this.defaultSitemap= items.defaultSitemap || this.defaults.defaultSitemap;
 
 			callback();
 		}.bind(this));
